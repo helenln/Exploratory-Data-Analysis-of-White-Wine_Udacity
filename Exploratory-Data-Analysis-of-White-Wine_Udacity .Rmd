@@ -3,9 +3,8 @@ title: "Udacity_EDA/White_Wine"
 author: "Helen Nguyen"
 date: "6/7/2018"
 output:
-  pdf_document: default
-  html_document: default
   word_document: default
+  pdf_document: default
 ---
 
 Wine Exploratory Data Analysis by Helen Nguyen
@@ -23,9 +22,9 @@ library(knitr)
 library(GGally)
 ```
 
-```{r echo=True, Load_the_Data}
+```{r, Load_the_Data}
 #Load the Data
-ww <- read.csv('wineQualityWhites.csv')
+ww <- read.csv('/Users/Helen/Desktop/udacityR/wineQualityWhites.csv')
 ```
 
 ```{r}
@@ -33,12 +32,12 @@ ww <- read.csv('wineQualityWhites.csv')
 ww <- ww %>% dplyr::select(-X)
 ```
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE, Univariate_Plots1}
 #Convert Quality from an Integer to a Factor 
 ww$quality <- factor(ww$quality, ordered = T)
 ```
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE, Univariate_Plots2}
 # Create a factored variable and name it 'Rating'
 ww$rating <- ifelse(ww$quality < 5, 'bad', ifelse(ww$quality < 7, 'average', 'excellent'))
 ww$rating <- ordered(ww$rating, levels = c('bad', 'average', 'excellent'))
@@ -48,17 +47,17 @@ ww$rating <- ordered(ww$rating, levels = c('bad', 'average', 'excellent'))
 
 Let's take  a look at dimensions, structure, and summary of the dataset
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE, Univariate_Plots3}
 #Print dimensions
 dim(ww)
 ```
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE, Univariate_Plots4}
 #Print structure
 str(ww)
 ```
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE, Univariate_Plots5}
 #Print summary
 summary(ww)
 ```
@@ -74,7 +73,7 @@ Density values fall between .99 and 1.
 
 Now that we have a summary of these variables, creating plots will allow us to view their distribution.
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE, Univariate_Plots6}
 ggplot(aes(x=quality), data=ww) + 
   geom_bar()
 ```
@@ -83,7 +82,7 @@ ggplot(aes(x=quality), data=ww) +
 
 Due to most wines being average, it may affect the accuracy of our model.
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE, Univariate_Plots7}
 ggplot(aes(x = fixed.acidity), data=ww) +
   geom_histogram(binwidth = 0.1) +
   scale_x_continuous(breaks = seq(4, 15, 2)) +
@@ -101,7 +100,7 @@ ggplot(aes(x = volatile.acidity), data = ww) +
 
 Volatile acidity has a normal distribution after applying the log function and removing outliers.
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE, Univariate_Plots8}
 ggplot(aes(x = citric.acid), data = ww) + 
   geom_histogram(binwidth = 0.02) +
   scale_x_continuous(limits = c(0, 1.0), breaks = seq(0, 1.0, .1))
@@ -109,7 +108,7 @@ ggplot(aes(x = citric.acid), data = ww) +
 
 Citric acid appears to also have a normal distribution with many outliers. 
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE, Univariate_Plots9}
 ggplot(aes(x = alcohol), data=ww) +
   geom_histogram(binwidth = 0.1) +
   scale_x_continuous(lim = c(8,14))
@@ -117,7 +116,7 @@ ggplot(aes(x = alcohol), data=ww) +
 
 Alcohol does not have a normal distribution with multiple peaks between 8.0% and 14.2%.
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE, Univariate_Plots10}
 ggplot(aes(x=residual.sugar), 
        data=subset(ww, residual.sugar < quantile(ww$residual.sugar,1))) +
   geom_histogram() +
@@ -127,7 +126,7 @@ ggplot(aes(x=residual.sugar),
 
 Residual sugar has a bimodal distribution with peaks before and after 3.
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE, Univariate_Plots11}
 ggplot(aes(x = density), data = ww) + 
   geom_histogram(binwidth = 0.001) +
   xlim(0.98, 1.04)
@@ -163,17 +162,17 @@ Volatile acidity and citric acid have a significant number of outliers. I had to
 
 Now that we've looked at these variables individually, let's take a look at the correlation between them.
 
-```{r echo=FALSE, Bivariate_Plots}
+```{r echo=FALSE, Bivariate_Plots1}
 #Create new variable to store quality as a number
 ww$numQuality = ww$quality
 ```
 
-```{r echo=FALSE, Bivariate_Plots}
+```{r echo=FALSE, Bivariate_Plots2}
 #Convert wine quality to a number
 ww$quality = as.numeric(ww$quality)
 ```
 
-```{r echo=FALSE, Bivariate_Plots}
+```{r echo=FALSE, Bivariate_Plots3}
 ggcorr(ww, label=TRUE)
 ```
 Correlation with Quality
@@ -191,12 +190,12 @@ Correlation among Variables
 
 In addition to the correlation table, boxplots will help us explore the relationships among these variables.
 
-```{r echo=FALSE, Bivariate_Plots}
+```{r echo=FALSE, Bivariate_Plots4}
 #Convert quality to a factor 
 ww$quality = as.factor(ww$quality)
 ```
 
-```{r echo=FALSE, Bivariate_Plots}
+```{r echo=FALSE, Bivariate_Plots5}
 ggplot(aes(x = quality, y = alcohol), data = ww) + 
   geom_jitter(alpha = .3) +
   geom_boxplot(alpha = .5, color = 'blue')
@@ -204,7 +203,7 @@ ggplot(aes(x = quality, y = alcohol), data = ww) +
 
 As we saw in the correlation table, alcohol and quality have a strong positive relationship. This is even more apparent when looking at the box plot. As alcohol content goes up, wine quality increases.
 
-```{r echo=FALSE, Bivariate_Plots}
+```{r echo=FALSE, Bivariate_Plots6}
 ggplot(aes(x = quality, y = density), data=ww) +
   geom_jitter( alpha = .3) +
   geom_boxplot(alpha = .5,color = 'blue')
@@ -212,7 +211,7 @@ ggplot(aes(x = quality, y = density), data=ww) +
 
 This visualization reinforces the negative relationship between density and alcohol. Wines with a higher quality have lower densities.
 
-```{r echo=FALSE, Bivariate_Plots}
+```{r echo=FALSE, Bivariate_Plots7}
 ggplot(aes(x = quality, y = residual.sugar), data=ww) +
   geom_jitter( alpha = .3) +
   geom_boxplot(alpha = .5,color = 'blue')
@@ -220,7 +219,7 @@ ggplot(aes(x = quality, y = residual.sugar), data=ww) +
 
 There is a weak correlation between residual sugar and quality due to low levels of sugar across all wines. Only a few wines have higher sugar content.
 
-```{r echo=FALSE, Bivariate_Plots}
+```{r echo=FALSE, Bivariate_Plots8}
 ggplot(aes(x = quality, y = volatile.acidity), data=ww) +
   geom_jitter( alpha = .3) +
   geom_boxplot(alpha = .5,color = 'blue')
@@ -228,7 +227,7 @@ ggplot(aes(x = quality, y = volatile.acidity), data=ww) +
 
 From the plot, as volatile acidity decreases, wine quality increases.
 
-```{r echo=FALSE, Bivariate_Plots}
+```{r echo=FALSE, Bivariate_Plots9}
 alcoholQualityLinearModel <- lm(as.numeric(quality) ~ alcohol,
                        data = ww)
 summary(alcoholQualityLinearModel)
@@ -254,7 +253,7 @@ Density and residual sugar formed the strongest positive relationship (.8), whil
 
 As seen in the previous section, alcohol plays a significant role in wine quality. However alcohol alone can't be the only factor. This leads us to dig deeper to determine how much of an impact alcohol has on quality. 
 
-```{r echo=FALSE, Multivariate_Plots}
+```{r echo=FALSE, Multivariate_Plots1}
 alcoholQualityLinearModel <- lm(as.numeric(quality) ~ alcohol, data = ww)
 summary(alcoholQualityLinearModel)
 ```
@@ -281,7 +280,7 @@ ggplot(data = ww, aes(x = alcohol, y = volatile.acidity, color = quality)) +
 
 Low concentration of volatile acidity and high alcohol content produce better wines.
 
-```{r echo=FALSE, Multivariate_Plots}
+```{r echo=FALSE, Multivariate_Plots2}
 ggplot(data = ww, aes(x = alcohol, y = sulphates, color = quality)) +
   geom_point(alpha = 0.8, size = 1) +
   geom_smooth(method = "lm", se = FALSE,size=1)  +
