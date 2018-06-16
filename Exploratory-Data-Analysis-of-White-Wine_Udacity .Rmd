@@ -5,6 +5,7 @@ date: "6/7/2018"
 output:
   pdf_document: default
   html_document: default
+  word_document: default
 ---
 
 Wine Exploratory Data Analysis by Helen Nguyen
