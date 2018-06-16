@@ -3,8 +3,10 @@ title: "Udacity_EDA/White_Wine"
 author: "Helen Nguyen"
 date: "6/7/2018"
 output:
-  word_document: default
+  html_document:
+    df_print: paged
   pdf_document: default
+  word_document: default
 ---
 
 Wine Exploratory Data Analysis by Helen Nguyen
